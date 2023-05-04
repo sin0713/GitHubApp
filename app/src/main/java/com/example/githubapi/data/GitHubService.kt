@@ -1,4 +1,4 @@
-package com.example.githubapi
+package com.example.githubapi.data
 
 import com.example.githubapi.data.pojo.CommitInfo
 import okhttp3.ResponseBody

@@ -1,6 +1,7 @@
-package com.example.githubapi
+package com.example.githubapi.data
 
 import android.util.Log
+import com.example.githubapi.Secret
 import com.example.githubapi.data.pojo.CommitInfo
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -31,7 +32,8 @@ object ApiClient {
     fun getCommits(repository: String): Single<List<CommitInfo>>  {
         return Single.create { emiter ->
 
-            val call: Call<List<CommitInfo>> = service.getCommits(OWNER, repository)
+            val call: Call<List<CommitInfo>> = service.getCommits(
+                OWNER, repository)
             kotlin.runCatching { call.execute() }
                 .onSuccess { response ->
                     Log.d(TAG, "api request is successful!")
