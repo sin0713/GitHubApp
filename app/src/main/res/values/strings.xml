@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GithubApi</string>
+    <string name="author_prefix">created by</string>
+    <string name="stars">stars</string>
+    <string name="forks">forks</string>
+    <string name="watchers">watchers</string>
+    <string name="gain">gain</string>
 </resources>
