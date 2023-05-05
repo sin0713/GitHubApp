@@ -1,25 +1,27 @@
 package com.example.githubapi.ui.view
 
 import androidx.lifecycle.ViewModel
-import com.example.githubapi.data.data_source.ApiClient
-import com.example.githubapi.data.pojo.RepositoryCard
-import com.example.githubapi.data.pojo.search.RepositoryInfo
-import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
-import com.example.githubapi.ui.mapper.RepositoryCardMapper
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.example.githubapi.domain.impl.SearchRepositoryImpl
+import com.example.githubapi.domain.use_case.SearchRepositoryUseCase
+import com.example.githubapi.ui.HomeUiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class HomeViewModel : ViewModel() {
-    private val mapper: RepositoryCardMapper = RepositoryCardMapper()
-    private var _cardData: Single<List<RepositoryCard>> =
-        ApiClient.search("codelab")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { apiResult ->
-                mapper.execute(apiResult)
-            }
+    private val useCase: SearchRepositoryUseCase = SearchRepositoryImpl()
 
-    val cardData: Single<List<RepositoryCard>>
+    private var _cardData: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
+    val cardData: StateFlow<HomeUiState>
         get() = _cardData
+
+    fun searchRepository(searchWord: String) {
+        _cardData.update {
+            it.copy(isLoading = true)
+        }
+
+        useCase.handle(searchWord) { uiState ->
+            _cardData.value = uiState
+        }
+    }
 }
