@@ -12,4 +12,5 @@
     <color name="pink">#E58DB2</color>
     <color name="purple">#8C71DA</color>
     <color name="light_green">#24ECB0</color>
+    <color name="status_bar">#6970F4</color>
 </resources>

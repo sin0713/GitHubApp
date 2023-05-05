@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -44,17 +45,14 @@ fun HomeCard(cardData: RepositoryCard) {
                 .padding(all = 15.dp)
                 .fillMaxWidth()
         ) {
-            Row(
-                verticalAlignment = Alignment.Bottom
-            ) {
-                Text(
-                    cardData.name,
-                    style = MaterialTheme.typography.h6
-                )
+            Text(
+                cardData.name,
+                style = MaterialTheme.typography.h6
+            )
+            Row(Modifier.padding(top = 5.dp)) {
                 CardText(
-                    text = stringResource(R.string.author_prefix),
+                    text = stringResource(R.string.owner),
                     color = Color.Gray,
-                    modifier = Modifier.padding(start = 30.dp)
                 )
                 CardText(
                     text = cardData.author,
@@ -63,7 +61,7 @@ fun HomeCard(cardData: RepositoryCard) {
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 30.dp)
+                modifier = Modifier.padding(top = 15.dp)
             ) {
                 CardSubData(
                     data = cardData.watchers.toString(),
@@ -140,6 +138,7 @@ fun CardText(
         fontSize = 13.sp,
         fontWeight = FontWeight.Bold,
         color = color,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier
     )
 }

@@ -1,8 +1,9 @@
-package com.example.githubapi.data
+package com.example.githubapi.data.data_source
 
 import android.util.Log
 import com.example.githubapi.Secret
-import com.example.githubapi.data.pojo.CommitInfo
+import com.example.githubapi.data.pojo.commit.CommitInfo
+import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.core.Single
@@ -44,17 +45,29 @@ object ApiClient {
                 }
         }
     }
-    fun search(): Single<String> {
+    fun search(searchWord: String): Single<SearchRepositoryInfo> {
         return Single.create { emitter ->
-            val call: Call<ResponseBody> = service.search(Secret.TOKEN, "bookers")
+            val call: Call<SearchRepositoryInfo> = service.search(Secret.TOKEN, searchWord)
             kotlin.runCatching { call.execute() }
                 .onSuccess { response ->
-                    Log.d(TAG, "api request is successful!")
-                    println(response.errorBody())
-                    emitter.onSuccess(response.body()?.string() ?: "")
+                    Log.d(TAG, "runCatching onSuccess")
+
+                    // errorBodyチェック
+                    response.errorBody()?.let {
+                        emitter.onError(Throwable(it.string()))
+                        return@create
+                    }
+
+                    response.body()?.let {
+                        emitter.onSuccess(it)
+                        return@create
+                    }
+
+                    emitter.onError(Throwable())
                 }
                 .onFailure {
-                    Log.d(TAG, "getCommits is Failure")
+                    Log.d(TAG, "ApiClient#search Failure for ${it.message}")
+                    emitter.onError(it)
                 }
         }
     }

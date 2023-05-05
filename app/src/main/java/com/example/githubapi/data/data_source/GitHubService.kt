@@ -1,9 +1,9 @@
-package com.example.githubapi.data
+package com.example.githubapi.data.data_source
 
-import com.example.githubapi.data.pojo.CommitInfo
+import com.example.githubapi.data.pojo.commit.CommitInfo
+import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -21,5 +21,5 @@ interface GitHubService {
     fun search(
         @Header("Authorization") token: String,
         @Query("q") searchWord: String
-    ): Call<ResponseBody>
+    ): Call<SearchRepositoryInfo>
 }
