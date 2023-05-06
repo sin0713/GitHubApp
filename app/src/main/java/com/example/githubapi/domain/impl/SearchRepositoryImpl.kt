@@ -39,7 +39,7 @@ class SearchRepositoryImpl : SearchRepositoryUseCase {
                  }
                  onComplete(HomeUiState(data = response))
              }) {
-                 onComplete(HomeUiState("error"))
+                 onComplete(HomeUiState(errorMessage = "error"))
              }
     }
 }

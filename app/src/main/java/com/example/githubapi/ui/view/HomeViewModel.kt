@@ -11,17 +11,23 @@ import kotlinx.coroutines.flow.update
 class HomeViewModel : ViewModel() {
     private val useCase: SearchRepositoryUseCase = SearchRepositoryImpl()
 
-    private var _cardData: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
-    val cardData: StateFlow<HomeUiState>
-        get() = _cardData
+    private var _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
+    val homeUiSate: StateFlow<HomeUiState>
+        get() = _homeUiState
 
-    fun searchRepository(searchWord: String) {
-        _cardData.update {
+    fun searchRepository() {
+        _homeUiState.update {
             it.copy(isLoading = true)
         }
 
-        useCase.handle(searchWord) { uiState ->
-            _cardData.value = uiState
+        useCase.handle(_homeUiState.value.searchWord) { uiState ->
+            _homeUiState.value = uiState
+        }
+    }
+
+    fun updateSearchWord(searchWord: String) {
+        _homeUiState.update {
+            it.copy(searchWord = searchWord)
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,14 +29,15 @@ import com.example.githubapi.ui.HomeUiState
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
-    val data = viewModel.cardData.collectAsState()
+    val data = viewModel.homeUiSate.collectAsState()
     val uiState = data.value
 
     HomeScreen(
         state = uiState,
         shouldShowErrorUi = uiState.errorMessage.isNotEmpty(),
         errorMessage = uiState.errorMessage,
-        onClickSearchButton = { viewModel.searchRepository("codelab")}
+        onClickSearchButton = { viewModel.searchRepository()},
+        updateSearchWord = { text -> viewModel.updateSearchWord(text) }
     )
 }
 
@@ -44,25 +46,28 @@ fun HomeScreen(
     state: HomeUiState,
     shouldShowErrorUi: Boolean,
     errorMessage: String,
-    onClickSearchButton: () -> Unit
+    onClickSearchButton: () -> Unit,
+    updateSearchWord: (String) -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
     ) {
+        OutlinedTextField(
+            value = state.searchWord,
+            onValueChange = updateSearchWord,
+            modifier = Modifier.padding(20.dp)
+        )
+        Button(
+            onClick = onClickSearchButton,
+            modifier = Modifier.padding(top = 10.dp)
+        ) {
+            Text(text = "Search")
+        }
         if (shouldShowErrorUi) {
             Error(errorMessage)
         } else {
             ResultList(cardData = state.data)
-        }
-        Button(
-            onClick = onClickSearchButton,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 30.dp)
-        ) {
-            Text(text = "Search")
         }
     }
     // ローディング中のみ表示
@@ -83,7 +88,6 @@ fun Loading(isLoading: Boolean) {
     ) {
         CircularProgressIndicator()
     }
-
 }
 
 @Composable
