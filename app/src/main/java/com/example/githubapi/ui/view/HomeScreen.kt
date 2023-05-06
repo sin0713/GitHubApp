@@ -29,17 +29,35 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
     val data = viewModel.cardData.collectAsState()
+    val uiState = data.value
 
+    HomeScreen(
+        state = uiState,
+        shouldShowErrorUi = uiState.errorMessage.isNotEmpty(),
+        errorMessage = uiState.errorMessage,
+        onClickSearchButton = { viewModel.searchRepository("codelab")}
+    )
+}
+
+@Composable
+fun HomeScreen(
+    state: HomeUiState,
+    shouldShowErrorUi: Boolean,
+    errorMessage: String,
+    onClickSearchButton: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-        HomeScreen(data.value)
+        if (shouldShowErrorUi) {
+            Error(errorMessage)
+        } else {
+            ResultList(cardData = state.data)
+        }
         Button(
-            onClick = {
-                viewModel.searchRepository("codelab")
-            },
+            onClick = onClickSearchButton,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 30.dp)
@@ -47,35 +65,38 @@ fun HomeScreen(
             Text(text = "Search")
         }
     }
+    // ローディング中のみ表示
+    Loading(isLoading = state.isLoading)
 }
 
 @Composable
-fun HomeScreen(uiState: HomeUiState) {
-    if (uiState.errorMessage.isNotEmpty()) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = uiState.errorMessage,
-                style = MaterialTheme.typography.headlineMedium
+fun Loading(isLoading: Boolean) {
+    if (!isLoading) return
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(
+                color = colorResource(id = R.color.loading_background)
             )
-        }
-    } else {
-        ResultList(cardData = uiState.data)
+            .wrapContentSize(Alignment.Center)
+    ) {
+        CircularProgressIndicator()
     }
-    if (uiState.isLoading) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(
-                    color = colorResource(id = R.color.loading_background)
-                )
-                .wrapContentSize(Alignment.Center)
-        ) {
-            CircularProgressIndicator()
-        }
+
+}
+
+@Composable
+fun Error(errorMessage: String = "") {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = errorMessage,
+            style = MaterialTheme.typography.headlineMedium
+        )
     }
 }
 
