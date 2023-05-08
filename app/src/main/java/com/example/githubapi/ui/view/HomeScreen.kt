@@ -1,5 +1,6 @@
 package com.example.githubapi.ui.view
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,13 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.githubapi.FirebaseAuthService
 import com.example.githubapi.R
 import com.example.githubapi.data.pojo.RepositoryCard
 import com.example.githubapi.ui.HomeUiState
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = viewModel(),
+    activity: Activity
 ) {
     val data = viewModel.homeUiSate.collectAsState()
     val uiState = data.value
@@ -37,7 +40,8 @@ fun HomeScreen(
         shouldShowErrorUi = uiState.errorMessage.isNotEmpty(),
         errorMessage = uiState.errorMessage,
         onClickSearchButton = { viewModel.searchRepository()},
-        updateSearchWord = { text -> viewModel.updateSearchWord(text) }
+        updateSearchWord = { text -> viewModel.updateSearchWord(text) },
+        activity
     )
 }
 
@@ -47,7 +51,8 @@ fun HomeScreen(
     shouldShowErrorUi: Boolean,
     errorMessage: String,
     onClickSearchButton: () -> Unit,
-    updateSearchWord: (String) -> Unit
+    updateSearchWord: (String) -> Unit,
+    activity: Activity
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,6 +69,25 @@ fun HomeScreen(
         ) {
             Text(text = "Search")
         }
+        Button(
+            onClick = { FirebaseAuthService.loginFlow(activity = activity)},
+            modifier = Modifier.padding(top = 10.dp)
+        ) {
+            Text(text = "login")
+        }
+        Button(
+            onClick = { FirebaseAuthService.signInWithPassword()},
+            modifier = Modifier.padding(top = 10.dp)
+        ) {
+            Text(text = "loginWithEmailAndPass")
+        }
+        Button(
+            onClick = { FirebaseAuthService.signOut() },
+            modifier = Modifier.padding(top = 10.dp)
+        ) {
+            Text(text = "logout")
+        }
+
         if (shouldShowErrorUi) {
             Error(errorMessage)
         } else {
