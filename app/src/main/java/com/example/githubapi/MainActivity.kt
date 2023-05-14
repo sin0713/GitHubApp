@@ -1,10 +1,8 @@
 package com.example.githubapi
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -13,16 +11,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.githubapi.ui.theme.GithubApiAppTheme
-import com.example.githubapi.ui.view.HomeScreen
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.githubapi.ui.view.home.HomeScreen
+import com.example.githubapi.ui.view.token.TokenScreen
+import com.example.githubapi.ui.view.token.TokenScreenPreview
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        const val DESTINATION_HOME: String = "home"
+        const val DESTINATION_TOKEN: String = "token"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        FirebaseAuthService.isLogin()
 
         setContent {
             GithubApiAppTheme {
@@ -41,8 +44,20 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) { contentPadding ->
-                    Spacer(modifier = Modifier.padding(contentPadding.calculateTopPadding()))
-                    HomeScreen(activity = this)
+                    val controller = rememberNavController()
+
+                    NavHost(
+                        navController = controller,
+                        startDestination = DESTINATION_HOME,
+                        modifier = Modifier.padding(contentPadding)
+                    ) {
+                        composable(DESTINATION_HOME) {
+                            HomeScreen(navController = controller)
+                        }
+                        composable(DESTINATION_TOKEN) {
+                            TokenScreen(activity = this@MainActivity)
+                        }
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.githubapi.ui.view
+package com.example.githubapi.ui.view.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

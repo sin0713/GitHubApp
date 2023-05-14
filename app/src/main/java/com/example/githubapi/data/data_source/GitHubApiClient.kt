@@ -7,12 +7,11 @@ import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.core.Single
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-object ApiClient {
+object GitHubApiClient {
     private const val TAG: String = "ApiClient"
     private const val BASE_URL: String = "https://api.github.com"
     private const val OWNER: String = "sin0713"
@@ -26,8 +25,8 @@ object ApiClient {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    private val service: GitHubService =
-        retrofit.create(GitHubService::class.java)
+    private val service: GitHubApiService =
+        retrofit.create(GitHubApiService::class.java)
 
 
     fun getCommits(repository: String): Single<List<CommitInfo>>  {

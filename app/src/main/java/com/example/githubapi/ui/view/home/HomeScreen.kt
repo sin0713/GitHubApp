@@ -1,6 +1,5 @@
-package com.example.githubapi.ui.view
+package com.example.githubapi.ui.view.home
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,10 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,7 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.githubapi.FirebaseAuthService
+import androidx.navigation.NavController
+import com.example.githubapi.MainActivity
 import com.example.githubapi.R
 import com.example.githubapi.data.pojo.RepositoryCard
 import com.example.githubapi.ui.HomeUiState
@@ -30,7 +32,7 @@ import com.example.githubapi.ui.HomeUiState
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
-    activity: Activity
+    navController: NavController,
 ) {
     val data = viewModel.homeUiSate.collectAsState()
     val uiState = data.value
@@ -39,9 +41,10 @@ fun HomeScreen(
         state = uiState,
         shouldShowErrorUi = uiState.errorMessage.isNotEmpty(),
         errorMessage = uiState.errorMessage,
+        navigateFunc = { navController.navigate(MainActivity.DESTINATION_TOKEN)},
         onClickSearchButton = { viewModel.searchRepository()},
         updateSearchWord = { text -> viewModel.updateSearchWord(text) },
-        activity
+        updateDialogState = { viewModel.updateDialogState(it) },
     )
 }
 
@@ -50,9 +53,10 @@ fun HomeScreen(
     state: HomeUiState,
     shouldShowErrorUi: Boolean,
     errorMessage: String,
+    navigateFunc: () -> Unit,
     onClickSearchButton: () -> Unit,
     updateSearchWord: (String) -> Unit,
-    activity: Activity
+    updateDialogState: (Boolean) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,32 +74,60 @@ fun HomeScreen(
             Text(text = "Search")
         }
         Button(
-            onClick = { FirebaseAuthService.loginFlow(activity = activity)},
+            onClick = { updateDialogState(true) },
             modifier = Modifier.padding(top = 10.dp)
         ) {
-            Text(text = "login")
+            Text(text = "show dialog")
         }
-        Button(
-            onClick = { FirebaseAuthService.signInWithPassword()},
-            modifier = Modifier.padding(top = 10.dp)
-        ) {
-            Text(text = "loginWithEmailAndPass")
-        }
-        Button(
-            onClick = { FirebaseAuthService.signOut() },
-            modifier = Modifier.padding(top = 10.dp)
-        ) {
-            Text(text = "logout")
-        }
-
         if (shouldShowErrorUi) {
             Error(errorMessage)
         } else {
             ResultList(cardData = state.data)
         }
     }
+
+    // showDialog
+    GetTokenDialog(
+        showDialog = state.showDialog,
+        dismissDialog = { updateDialogState(false) },
+        requestFunction = navigateFunc
+    )
+
     // ローディング中のみ表示
     Loading(isLoading = state.isLoading)
+}
+
+@Composable
+fun GetTokenDialog(
+    showDialog: Boolean,
+    dismissDialog: () -> Unit,
+    requestFunction:  () -> Unit,
+) {
+    if (!showDialog) return
+
+    AlertDialog(
+        onDismissRequest = dismissDialog,
+        confirmButton = {
+            TextButton(
+                onClick = requestFunction,
+            ) {
+                Text(text = "OK")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = dismissDialog,
+            ) {
+                Text(text = "Cancel")
+            }
+        },
+        title = {
+            Text("Please get token")
+        },
+        text = {
+            Text("This app need to get token.")
+        }
+    )
 }
 
 @Composable
