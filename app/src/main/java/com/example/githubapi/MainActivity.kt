@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.githubapi.data.data_source.SharedPrefClient
 import com.example.githubapi.ui.theme.GithubApiAppTheme
 import com.example.githubapi.ui.view.home.HomeScreen
 import com.example.githubapi.ui.view.token.TokenScreen
@@ -26,6 +27,8 @@ class MainActivity : ComponentActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        SharedPrefClient.init(this)
 
         setContent {
             GithubApiAppTheme {

@@ -14,6 +14,7 @@ class SearchRepositoryImpl : SearchRepositoryUseCase {
 
     @SuppressLint("CheckResult")
     override fun handle(
+        token: String,
         searchWord: String,
         onComplete: (HomeUiState) -> Unit
     ) {
@@ -24,7 +25,7 @@ class SearchRepositoryImpl : SearchRepositoryUseCase {
             return
         }
 
-         _repository.searchRepositoryApi(searchWord)
+         _repository.searchRepositoryApi(token, searchWord)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { apiResult ->

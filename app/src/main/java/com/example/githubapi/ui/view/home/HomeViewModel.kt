@@ -1,19 +1,13 @@
 package com.example.githubapi.ui.view.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.githubapi.data.data_source.SharedPrefClient
 import com.example.githubapi.domain.impl.SearchRepositoryImpl
 import com.example.githubapi.domain.use_case.SearchRepositoryUseCase
 import com.example.githubapi.ui.HomeUiState
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import java.util.Timer
-import java.util.concurrent.TimeUnit
-import kotlin.concurrent.scheduleAtFixedRate
 
 class HomeViewModel : ViewModel() {
     private val useCase: SearchRepositoryUseCase = SearchRepositoryImpl()
@@ -27,7 +21,16 @@ class HomeViewModel : ViewModel() {
             it.copy(isLoading = true)
         }
 
-        useCase.handle(_homeUiState.value.searchWord) { uiState ->
+        val token = SharedPrefClient.getStr(SharedPrefClient.TOKEN_KEY)
+        if (token.isEmpty()) {
+            _homeUiState.update {
+                it.copy(isLoading = false)
+            }
+
+            return
+        }
+
+        useCase.handle(token, _homeUiState.value.searchWord) { uiState ->
             _homeUiState.value = uiState
         }
     }

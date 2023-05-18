@@ -74,12 +74,11 @@ object GitHubClient {
                Observable.create { emitter ->
                    kotlin.runCatching { call.execute() }
                        .onSuccess { response ->
-                           Log.d(TAG, "getAccessToken: Success!")
+                           Log.d(TAG, "getAccessToken request: Success!")
 
                            if (response.isSuccessful) {
                                response.body()?.let {
                                    Log.d(TAG, "error: ${it.error}")
-                                   Log.d(TAG, "errorDescription: ${it.errorDescription}")
                                    Log.d(TAG, "access_token: ${it.accessToken}")
 
                                    emitter.onNext(it)
@@ -88,7 +87,7 @@ object GitHubClient {
                            }
                        }
                        .onFailure {
-                           Log.d(TAG, "getAccessToken: Failure!")
+                           Log.d(TAG, "getAccessToken request: Failure!")
                            emitter.onComplete()
                        }
                }

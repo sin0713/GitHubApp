@@ -2,6 +2,7 @@ package com.example.githubapi.ui.view.token
 
 import androidx.lifecycle.ViewModel
 import com.example.githubapi.data.data_source.GitHubClient
+import com.example.githubapi.data.data_source.SharedPrefClient
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -60,7 +61,47 @@ class TokenViewModel : ViewModel() {
         )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe { tokenInfo ->
+                if (tokenInfo.accessToken.isNotEmpty()) {
+                    // 正常系
+                    // todo トークン保存処理
+                    SharedPrefClient.putStr(
+                        SharedPrefClient.TOKEN_KEY,
+                        tokenInfo.accessToken
+                    )
+                    disposable?.dispose()
+                    return@subscribe
+                }
+
+                if (tokenInfo.error.isEmpty()) {
+                    // 購読解除処理
+                    // return
+                }
+
+                // errorメッセージあり
+
+                // authorization_pending
+                // 認証待ち状態
+                // 処理なし
+
+                // slow_down
+                // 一旦、購読解除
+                // 新しく(interval 更新)アクセストークンリクエスト処理を開始する
+
+                // ユーザーキャンセル
+                // 検証コード使用不可
+                // access_denied
+
+                // デバイスコード有効期間切れ
+                // 検証コード使用不可
+                // expired_token
+
+                // コーディングミス系(処理しない)
+                /// unsupported_grant_type
+                /// incorrect_client_credentials
+                /// incorrect_device_code
+                // device_flow_disabled
+
             }
     }
 

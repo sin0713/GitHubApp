@@ -44,9 +44,9 @@ object GitHubApiClient {
                 }
         }
     }
-    fun search(searchWord: String): Single<SearchRepositoryInfo> {
+    fun search(token: String, searchWord: String): Single<SearchRepositoryInfo> {
         return Single.create { emitter ->
-            val call: Call<SearchRepositoryInfo> = service.search(Secret.TOKEN, searchWord)
+            val call: Call<SearchRepositoryInfo> = service.search(token, searchWord)
             kotlin.runCatching { call.execute() }
                 .onSuccess { response ->
                     Log.d(TAG, "runCatching onSuccess")

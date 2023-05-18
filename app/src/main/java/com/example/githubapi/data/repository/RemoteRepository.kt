@@ -6,7 +6,7 @@ import com.example.githubapi.domain.repository.IRemoteRepository
 import io.reactivex.rxjava3.core.Single
 
 class RemoteRepository : IRemoteRepository {
-    override fun searchRepositoryApi(searchWord: String): Single<SearchRepositoryInfo> {
-        return GitHubApiClient.search(searchWord)
+    override fun searchRepositoryApi(token: String, searchWord: String): Single<SearchRepositoryInfo> {
+        return GitHubApiClient.search(token, searchWord)
     }
 }
