@@ -1,7 +1,6 @@
 package com.example.githubapi.data.data_source
 
 import android.util.Log
-import com.example.githubapi.Secret
 import com.example.githubapi.data.pojo.commit.CommitInfo
 import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
 import com.squareup.moshi.Moshi

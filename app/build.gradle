@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -82,6 +84,7 @@ dependencies {
     implementation "androidx.compose.material3:material3-window-size-class:1.0.1"
     implementation "androidx.activity:activity-compose:1.7.1"
     implementation "com.google.accompanist:accompanist-themeadapter-material:0.30.1"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
 
     def lifecycle_version = "2.6.1"
     // ViewModel
@@ -99,4 +102,12 @@ dependencies {
 
     // For App Authentication API testing
     androidTestImplementation "androidx.security:security-app-authenticator:1.0.0-alpha02"
+
+    // di
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+}
+
+kapt {
+    correctErrorTypes true
 }

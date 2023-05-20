@@ -1,11 +1,11 @@
 package com.example.githubapi.ui.mapper
 
-import androidx.compose.runtime.saveable.autoSaver
 import com.example.githubapi.data.pojo.RepositoryCard
 import com.example.githubapi.data.pojo.search.RepositoryInfo
 import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
+import javax.inject.Inject
 
-class RepositoryCardMapper {
+class RepositoryCardMapper @Inject constructor() {
     fun execute(
         searchRepositoryInfo: SearchRepositoryInfo
     ): List<RepositoryCard> {

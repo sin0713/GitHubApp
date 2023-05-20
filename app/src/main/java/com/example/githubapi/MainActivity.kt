@@ -19,7 +19,9 @@ import com.example.githubapi.ui.theme.GithubApiAppTheme
 import com.example.githubapi.ui.view.home.HomeScreen
 import com.example.githubapi.ui.view.token.TokenScreen
 import com.example.githubapi.ui.view.token.TokenScreenPreview
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
         const val DESTINATION_HOME: String = "home"

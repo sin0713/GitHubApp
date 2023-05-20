@@ -20,5 +20,4 @@ interface GitHubApiService {
         @Header("Authorization") token: String,
         @Query("q") searchWord: String
     ): Call<SearchRepositoryInfo>
-
 }

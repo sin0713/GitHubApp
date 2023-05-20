@@ -5,12 +5,15 @@ import com.example.githubapi.data.data_source.SharedPrefClient
 import com.example.githubapi.domain.impl.SearchRepositoryImpl
 import com.example.githubapi.domain.use_case.SearchRepositoryUseCase
 import com.example.githubapi.ui.HomeUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
-    private val useCase: SearchRepositoryUseCase = SearchRepositoryImpl()
+@HiltViewModel
+class HomeViewModel @Inject constructor() :  ViewModel() {
+    @Inject lateinit var useCase: SearchRepositoryUseCase
 
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
     val homeUiSate: StateFlow<HomeUiState>

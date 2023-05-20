@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.githubapi.MainActivity
 import com.example.githubapi.R
@@ -31,7 +31,7 @@ import com.example.githubapi.ui.HomeUiState
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController,
 ) {
     val data = viewModel.homeUiSate.collectAsState()
