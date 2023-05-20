@@ -1,6 +1,5 @@
-package com.example.githubapi.di
+package com.example.githubapi.di.data
 
-import com.example.githubapi.data.data_source.GitHubApiClient.moshi
 import com.example.githubapi.di.annotation.GithubApiRetrofit
 import com.example.githubapi.di.annotation.GithubAuthRetrofit
 import com.squareup.moshi.Moshi

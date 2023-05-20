@@ -18,7 +18,6 @@ import com.example.githubapi.data.data_source.SharedPrefClient
 import com.example.githubapi.ui.theme.GithubApiAppTheme
 import com.example.githubapi.ui.view.home.HomeScreen
 import com.example.githubapi.ui.view.token.TokenScreen
-import com.example.githubapi.ui.view.token.TokenScreenPreview
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

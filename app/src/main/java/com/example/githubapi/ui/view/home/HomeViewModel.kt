@@ -20,22 +20,34 @@ class HomeViewModel @Inject constructor() :  ViewModel() {
         get() = _homeUiState
 
     fun searchRepository() {
-        _homeUiState.update {
-            it.copy(isLoading = true)
-        }
-
         val token = SharedPrefClient.getStr(SharedPrefClient.TOKEN_KEY)
-        if (token.isEmpty()) {
-            _homeUiState.update {
-                it.copy(isLoading = false)
+        if (token.isEmpty()) { return }
+
+        useCase.handle(
+            token = token,
+            searchWord = _homeUiState.value.searchWord,
+            onStart = {
+                _homeUiState.update { it.copy(isLoading = true) }
+            },
+            onComplete = { result ->
+                 _homeUiState.update {
+                     it.copy(
+                         errorMessage = "",
+                         isLoading = false,
+                         data = result,
+                     )
+                 }
+            },
+            onError = { errorMessage ->
+                // 前回結果の更新していない
+                _homeUiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = errorMessage
+                    )
+                }
             }
-
-            return
-        }
-
-        useCase.handle(token, _homeUiState.value.searchWord) { uiState ->
-            _homeUiState.value = uiState
-        }
+        )
     }
 
     fun updateSearchWord(searchWord: String) {

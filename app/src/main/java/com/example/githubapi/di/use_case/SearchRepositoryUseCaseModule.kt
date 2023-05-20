@@ -1,4 +1,4 @@
-package com.example.githubapi.di
+package com.example.githubapi.di.use_case
 
 import com.example.githubapi.domain.impl.SearchRepositoryImpl
 import com.example.githubapi.domain.use_case.SearchRepositoryUseCase

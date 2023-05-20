@@ -1,13 +1,13 @@
 package com.example.githubapi.ui
 
-import com.example.githubapi.data.pojo.RepositoryCard
+import com.example.githubapi.domain.model.RepositoryModel
 
 data class HomeUiState (
     val searchWord: String = "",
     val errorMessage: String = "",
     val isLoading: Boolean = false,
     val showDialog: Boolean = false,
-    val data: List<RepositoryCard> = emptyList()
+    val data: List<RepositoryModel> = emptyList()
 )
 
 

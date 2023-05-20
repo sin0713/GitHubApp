@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.githubapi.R
-import com.example.githubapi.data.pojo.RepositoryCard
+import com.example.githubapi.domain.model.RepositoryModel
 import com.example.githubapi.data.pojo.SampleData
 
 @Composable
-fun HomeCard(cardData: RepositoryCard) {
+fun HomeCard(cardData: RepositoryModel) {
     Card(
         shape = RoundedCornerShape(20.dp),
         elevation = 8.dp,

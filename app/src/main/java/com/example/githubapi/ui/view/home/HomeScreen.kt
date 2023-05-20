@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.githubapi.MainActivity
 import com.example.githubapi.R
-import com.example.githubapi.data.pojo.RepositoryCard
+import com.example.githubapi.domain.model.RepositoryModel
 import com.example.githubapi.ui.HomeUiState
 
 @Composable
@@ -161,7 +161,7 @@ fun Error(errorMessage: String = "") {
 }
 
 @Composable
-fun ResultList(cardData: List<RepositoryCard>) {
+fun ResultList(cardData: List<RepositoryModel>) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

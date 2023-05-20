@@ -1,6 +1,6 @@
-package com.example.githubapi.ui.mapper
+package com.example.githubapi.domain.mapper
 
-import com.example.githubapi.data.pojo.RepositoryCard
+import com.example.githubapi.domain.model.RepositoryModel
 import com.example.githubapi.data.pojo.search.RepositoryInfo
 import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
 import javax.inject.Inject
@@ -8,14 +8,14 @@ import javax.inject.Inject
 class RepositoryCardMapper @Inject constructor() {
     fun execute(
         searchRepositoryInfo: SearchRepositoryInfo
-    ): List<RepositoryCard> {
+    ): List<RepositoryModel> {
         val items: List<RepositoryInfo> = searchRepositoryInfo.items
         if (items.isEmpty()) return listOf()
 
-        val result: MutableList<RepositoryCard> = mutableListOf()
+        val result: MutableList<RepositoryModel> = mutableListOf()
         items.forEach { repositoryInfo ->
             result.add(
-                RepositoryCard(
+                RepositoryModel(
                     name = repositoryInfo.fullName,
                     author = repositoryInfo.owner.login,
                     createdAt = repositoryInfo.createdAt,

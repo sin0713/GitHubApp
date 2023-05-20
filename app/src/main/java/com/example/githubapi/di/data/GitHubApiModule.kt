@@ -1,4 +1,4 @@
-package com.example.githubapi.di
+package com.example.githubapi.di.data
 
 import com.example.githubapi.data.data_source.GitHubApiService
 import com.example.githubapi.di.annotation.GithubApiRetrofit

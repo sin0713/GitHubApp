@@ -1,11 +1,13 @@
 package com.example.githubapi.domain.use_case
 
-import com.example.githubapi.ui.HomeUiState
+import com.example.githubapi.domain.model.RepositoryModel
 
 interface SearchRepositoryUseCase {
     fun handle(
         token: String,
         searchWord: String,
-        onComplete: (HomeUiState) -> Unit
+        onStart: () -> Unit,
+        onComplete: (List<RepositoryModel>) -> Unit,
+        onError: (String) -> Unit,
     )
 }

@@ -1,8 +1,10 @@
 package com.example.githubapi.data.pojo
 
+import com.example.githubapi.domain.model.RepositoryModel
+
 object SampleData {
-    val repositoryCardInfo: RepositoryCard =
-        RepositoryCard(
+    val repositoryCardInfo: RepositoryModel =
+        RepositoryModel(
             name = "AndroidApp",
             author = "shin0713",
             createdAt = "2022/04/23",

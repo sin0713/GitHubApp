@@ -1,6 +1,6 @@
-package com.example.githubapi.data.pojo
+package com.example.githubapi.domain.model
 
-data class RepositoryCard(
+data class RepositoryModel(
     val name: String,
     val author: String,
     val createdAt: String,

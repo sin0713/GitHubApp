@@ -1,6 +1,5 @@
-package com.example.githubapi.di
+package com.example.githubapi.di.data
 
-import com.example.githubapi.data.data_source.GitHubApiService
 import com.example.githubapi.data.data_source.GitHubService
 import com.example.githubapi.di.annotation.GithubAuthRetrofit
 import dagger.Module

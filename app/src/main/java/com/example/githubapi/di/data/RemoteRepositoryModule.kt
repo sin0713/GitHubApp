@@ -1,4 +1,4 @@
-package com.example.githubapi.di
+package com.example.githubapi.di.data
 
 import com.example.githubapi.data.repository.RemoteRepository
 import com.example.githubapi.domain.repository.IRemoteRepository
