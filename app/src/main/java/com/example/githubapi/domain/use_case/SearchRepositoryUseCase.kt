@@ -4,8 +4,8 @@ import com.example.githubapi.domain.model.RepositoryModel
 
 interface SearchRepositoryUseCase {
     fun handle(
-        token: String,
         searchWord: String,
+        showDialog: () -> Unit,
         onStart: () -> Unit,
         onComplete: (List<RepositoryModel>) -> Unit,
         onError: (String) -> Unit,

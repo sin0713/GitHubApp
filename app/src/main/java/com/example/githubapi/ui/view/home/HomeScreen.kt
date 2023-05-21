@@ -88,7 +88,7 @@ fun HomeScreen(
 
     // showDialog
     GetTokenDialog(
-        showDialog = state.showDialog,
+        showDialog = state.showGetTokenDialog,
         dismissDialog = { updateDialogState(false) },
         requestFunction = navigateFunc
     )

@@ -6,7 +6,7 @@ data class HomeUiState (
     val searchWord: String = "",
     val errorMessage: String = "",
     val isLoading: Boolean = false,
-    val showDialog: Boolean = false,
+    val showGetTokenDialog: Boolean = false,
     val data: List<RepositoryModel> = emptyList()
 )
 

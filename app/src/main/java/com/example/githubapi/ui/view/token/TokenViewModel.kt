@@ -1,16 +1,20 @@
 package com.example.githubapi.ui.view.token
 
 import androidx.lifecycle.ViewModel
+import com.example.githubapi.Constants
 import com.example.githubapi.data.data_source.GitHubClient
-import com.example.githubapi.data.data_source.SharedPrefClient
+import com.example.githubapi.data.repository.SharedPrefRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class TokenViewModel : ViewModel() {
+@HiltViewModel
+class TokenViewModel @Inject constructor() : ViewModel() {
     val logic = TokenScreenLogic()
 
     private var disposable: Disposable? = null
@@ -19,6 +23,8 @@ class TokenViewModel : ViewModel() {
     val uiState: StateFlow<TokenUiState> = _uiState
 
     private lateinit var accessTokenParam: AccessTokenRequestParam
+
+    @Inject lateinit var repository: SharedPrefRepository
 
     init {
         getVerificationInfo()
@@ -65,8 +71,8 @@ class TokenViewModel : ViewModel() {
                 if (tokenInfo.accessToken.isNotEmpty()) {
                     // 正常系
                     // todo トークン保存処理
-                    SharedPrefClient.putStr(
-                        SharedPrefClient.TOKEN_KEY,
+                    repository.putString(
+                        Constants.TOKEN_KEY,
                         tokenInfo.accessToken
                     )
                     disposable?.dispose()

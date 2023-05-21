@@ -1,8 +1,6 @@
 package com.example.githubapi.ui.view.home
 
 import androidx.lifecycle.ViewModel
-import com.example.githubapi.data.data_source.SharedPrefClient
-import com.example.githubapi.domain.impl.SearchRepositoryImpl
 import com.example.githubapi.domain.use_case.SearchRepositoryUseCase
 import com.example.githubapi.ui.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,12 +18,9 @@ class HomeViewModel @Inject constructor() :  ViewModel() {
         get() = _homeUiState
 
     fun searchRepository() {
-        val token = SharedPrefClient.getStr(SharedPrefClient.TOKEN_KEY)
-        if (token.isEmpty()) { return }
-
         useCase.handle(
-            token = token,
             searchWord = _homeUiState.value.searchWord,
+            showDialog = { updateDialogState(true) },
             onStart = {
                 _homeUiState.update { it.copy(isLoading = true) }
             },
@@ -58,7 +53,8 @@ class HomeViewModel @Inject constructor() :  ViewModel() {
 
     fun updateDialogState(shouldShow: Boolean) {
         _homeUiState.update {
-            it.copy(showDialog = shouldShow)
+            it.copy(showGetTokenDialog = shouldShow)
         }
     }
+
 }
