@@ -5,6 +5,7 @@ import com.example.githubapi.data.pojo.commit.CommitInfo
 import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -43,31 +44,7 @@ object GitHubApiClient {
                 }
         }
     }
-    fun search(token: String, searchWord: String): Single<SearchRepositoryInfo> {
-        return Single.create { emitter ->
-            val call: Call<SearchRepositoryInfo> = service.search(token, searchWord)
-            kotlin.runCatching { call.execute() }
-                .onSuccess { response ->
-                    Log.d(TAG, "runCatching onSuccess")
-
-                    // errorBodyチェック
-                    response.errorBody()?.let {
-                        emitter.onError(Throwable(it.string()))
-                        return@create
-                    }
-
-                    response.body()?.let {
-                        emitter.onSuccess(it)
-                        return@create
-                    }
-
-                    emitter.onError(Throwable())
-                }
-                .onFailure {
-                    Log.d(TAG, "ApiClient#search Failure for ${it.message}")
-                    emitter.onError(it)
-                }
-        }
+    fun search(token: String, searchWord: String): Observable<SearchRepositoryInfo> {
+        return service.search(token, searchWord)
     }
-
 }

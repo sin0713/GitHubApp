@@ -1,7 +1,7 @@
-package com.example.githubapi.di.data
+package com.example.githubapi.di.data.repository
 
 import com.example.githubapi.data.repository.RemoteRepository
-import com.example.githubapi.domain.repository.IRemoteRepository
+import com.example.githubapi.domain.repository.IApiRemoteRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ abstract class RemoteRepositoryModule {
     @Binds
     abstract fun bindRemoteRepository(
         remoteRepositoryImpl: RemoteRepository
-    ): IRemoteRepository
+    ): IApiRemoteRepository
 }

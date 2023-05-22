@@ -3,6 +3,7 @@ package com.example.githubapi.data.data_source
 import android.util.Log
 import com.example.githubapi.data.pojo.token.TokenInfo
 import com.example.githubapi.data.pojo.token.VerificationInfo
+import com.example.githubapi.data.util.RxJavaAdapter
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
@@ -58,26 +59,27 @@ object GitHubClient {
                        grantType = GRANT_TYPE
                    )
 
-               Observable.create { emitter ->
-                   kotlin.runCatching { call.execute() }
-                       .onSuccess { response ->
-                           Log.d(TAG, "getAccessToken request: Success!")
-
-                           if (response.isSuccessful) {
-                               response.body()?.let {
-                                   Log.d(TAG, "error: ${it.error}")
-                                   Log.d(TAG, "access_token: ${it.accessToken}")
-
-                                   emitter.onNext(it)
-                                   emitter.onComplete()
-                               }
-                           }
-                       }
-                       .onFailure {
-                           Log.d(TAG, "getAccessToken request: Failure!")
-                           emitter.onComplete()
-                       }
-               }
+//               Observable.create { emitter ->
+//                   kotlin.runCatching { call.execute() }
+//                       .onSuccess { response ->
+//                           Log.d(TAG, "getAccessToken request: Success!")
+//
+//                           if (response.isSuccessful) {
+//                               response.body()?.let {
+//                                   Log.d(TAG, "error: ${it.error}")
+//                                   Log.d(TAG, "access_token: ${it.accessToken}")
+//
+//                                   emitter.onNext(it)
+//                                   emitter.onComplete()
+//                               }
+//                           }
+//                       }
+//                       .onFailure {
+//                           Log.d(TAG, "getAccessToken request: Failure!")
+//                           emitter.onComplete()
+//                       }
+//               }
+               RxJavaAdapter.request(call)
            }
    }
 }

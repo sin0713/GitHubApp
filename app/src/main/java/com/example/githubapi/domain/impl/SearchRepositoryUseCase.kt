@@ -3,16 +3,16 @@ package com.example.githubapi.domain.impl
 import com.example.githubapi.Constants
 import com.example.githubapi.domain.mapper.RepositoryCardMapper
 import com.example.githubapi.domain.model.RepositoryModel
-import com.example.githubapi.domain.repository.IRemoteRepository
+import com.example.githubapi.domain.repository.IApiRemoteRepository
 import com.example.githubapi.domain.repository.ISharedPrefRepository
-import com.example.githubapi.domain.use_case.SearchRepositoryUseCase
+import com.example.githubapi.domain.use_case.ISearchRepositoryUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchRepositoryImpl @Inject constructor() : SearchRepositoryUseCase {
-    @Inject lateinit var repository: IRemoteRepository
+class SearchRepositoryUseCase @Inject constructor() : ISearchRepositoryUseCase {
+    @Inject lateinit var repository: IApiRemoteRepository
     @Inject lateinit var sharedPrefRepository: ISharedPrefRepository
     @Inject lateinit var mapper: RepositoryCardMapper
 
@@ -42,8 +42,6 @@ class SearchRepositoryImpl @Inject constructor() : SearchRepositoryUseCase {
 
         // APIリクエスト
         disposable = repository.searchRepositoryApi(token, searchWord)
-           .subscribeOn(Schedulers.io())
-           .observeOn(AndroidSchedulers.mainThread())
            .map { apiResult ->
                mapper.execute(apiResult)
            }

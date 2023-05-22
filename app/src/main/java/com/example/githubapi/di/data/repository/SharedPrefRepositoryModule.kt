@@ -1,4 +1,4 @@
-package com.example.githubapi.di.data
+package com.example.githubapi.di.data.repository
 
 import com.example.githubapi.data.repository.SharedPrefRepository
 import com.example.githubapi.domain.repository.ISharedPrefRepository

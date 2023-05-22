@@ -70,7 +70,7 @@ class TokenViewModel @Inject constructor() : ViewModel() {
             .subscribe { tokenInfo ->
                 if (tokenInfo.accessToken.isNotEmpty()) {
                     // 正常系
-                    // todo トークン保存処理
+                    // トークン保存処理
                     repository.putString(
                         Constants.TOKEN_KEY,
                         tokenInfo.accessToken
@@ -97,10 +97,12 @@ class TokenViewModel @Inject constructor() : ViewModel() {
                 // ユーザーキャンセル
                 // 検証コード使用不可
                 // access_denied
+                // todo この場合ローカルのverificationInfo削除
 
                 // デバイスコード有効期間切れ
                 // 検証コード使用不可
                 // expired_token
+                // todo この場合ローカルのverificationInfo削除
 
                 // コーディングミス系(処理しない)
                 /// unsupported_grant_type

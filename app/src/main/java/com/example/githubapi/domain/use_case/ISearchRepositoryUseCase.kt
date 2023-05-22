@@ -2,7 +2,7 @@ package com.example.githubapi.domain.use_case
 
 import com.example.githubapi.domain.model.RepositoryModel
 
-interface SearchRepositoryUseCase {
+interface ISearchRepositoryUseCase {
     fun handle(
         searchWord: String,
         showDialog: () -> Unit,

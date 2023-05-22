@@ -1,7 +1,7 @@
 package com.example.githubapi.ui.view.home
 
 import androidx.lifecycle.ViewModel
-import com.example.githubapi.domain.use_case.SearchRepositoryUseCase
+import com.example.githubapi.domain.use_case.ISearchRepositoryUseCase
 import com.example.githubapi.ui.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor() :  ViewModel() {
-    @Inject lateinit var useCase: SearchRepositoryUseCase
+    @Inject lateinit var useCase: ISearchRepositoryUseCase
 
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
     val homeUiSate: StateFlow<HomeUiState>

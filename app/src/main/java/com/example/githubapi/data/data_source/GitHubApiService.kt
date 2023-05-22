@@ -2,6 +2,7 @@ package com.example.githubapi.data.data_source
 
 import com.example.githubapi.data.pojo.commit.CommitInfo
 import com.example.githubapi.data.pojo.search.SearchRepositoryInfo
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -19,5 +20,5 @@ interface GitHubApiService {
     fun search(
         @Header("Authorization") token: String,
         @Query("q") searchWord: String
-    ): Call<SearchRepositoryInfo>
+    ): Observable<SearchRepositoryInfo>
 }
